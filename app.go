@@ -31,7 +31,7 @@ import (
 
 func main() {
 
-	log.Printf("App Version 1.0\n")
+	log.Printf("App Version 1.1-dev\n")
 	// Obtener puerto
 	port := os.Getenv("PUERTO")
 	if port == "" {
