@@ -37,7 +37,7 @@ La aplicación se puede usar de dos maneras:
 
 ## Container Registry
 
-Para alojar las imagenes de la app este repositorio cuenta con una regsitry en la siguiente URL:
+Para alojar las imagenes de la app este repositorio cuenta con una registry en la siguiente URL:
 
 - registry.gitlab.com/sendati-training/mini-go-service
 
