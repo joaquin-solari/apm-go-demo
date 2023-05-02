@@ -1,3 +1,3 @@
-module https://gitlab.com/sendati-training/mini-go-service
+module gitlab.com/sendati-training/mini-go-service
 
 go 1.12
