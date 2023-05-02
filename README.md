@@ -20,7 +20,7 @@ Se proveen los siguientes archivos
 
 La aplicación se puede usar de dos maneras:
 
-- Binario: se compila el codigo fuente y se ejecuta el binario final
+- Binario: se compila el codigo fuente y se ejecuta el binario final, las lineas para compilarlo se pueden tomar del Dockerfile.
 - Contenedor: utilizando el dockerfile provisto se genera un contenedor y se ejecuta el mismo como cualquier otro contenedor.
 
 ## Arquitectura de la aplicación.
