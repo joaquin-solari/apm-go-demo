@@ -25,7 +25,7 @@ La aplicación se puede usar de dos maneras:
 
 ## Arquitectura de la aplicación.
 
-La presente aplicación presenta las sigueintes funcionalidades:
+Ésta aplicación presenta las siguientes funcionalidades:
 
 1. Puerto HTTP: Escucha en un puerto http que se defina con la variable de entorno PUERTO, en caso de que la misma no exista escuchará en un puerto aleatorio entre el 1001 y el 10000.
 2. Log de inicios: La aplicación registra cada inicio de la misma en un archivo definido con la variable de entorno LOGFILE, en caso de que la misma no esté definida lo registrará en un archivo aleatorio dentro de la ruta /tmp
