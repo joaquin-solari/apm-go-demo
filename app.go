@@ -27,7 +27,6 @@ import (
 	"net/http"
 	"os"
 	"time"
-
 	"go.elastic.co/apm"
 	"go.elastic.co/apm/module/apmhttp"
 )
@@ -79,14 +78,13 @@ func main() {
 	}
 
 	// Manejador HTTP
-	var myHandler http.Handler = http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	// Envolver el manejador con el middleware de Elastic APM
+	tracedHandler := apmhttp.Wrap(http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		// Loggear pedidos de conexion
 		log.Printf("%s - Conexion desde %s \n", time.Now().Format("2006-01-02 15:04:05"), r.RemoteAddr )
 		w.Write(respuesta)
 	})
-
-	// Envolver el manejador con el middleware de Elastic APM
-	tracedHandler := apmhttp.Wrap(myHandler)
+)
 
 	// Escuchar en el puerto especificado
 	listener, err := net.Listen("tcp", ":"+port)
@@ -96,7 +94,7 @@ func main() {
 	defer listener.Close()
 	log.Printf("Escuchando en el puerto %s\n", port)
 
-	err = http.Serve(listener, nil)
+	err = http.Serve(listener, tracedHandler)
 	if err != nil {
 		log.Fatal(err)
 	}
