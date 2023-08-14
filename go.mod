@@ -1,3 +1,3 @@
-module gitlab.com/sendati-training/mini-go-service
+module github.com/joaquin-solari/apm-go-demo
 
 go 1.12
