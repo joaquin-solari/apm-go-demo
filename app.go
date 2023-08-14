@@ -82,10 +82,7 @@ func main() {
 	tracedHandler := apmhttp.Wrap(http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		// Loggear pedidos de conexion
 		log.Printf("%s - Conexion desde %s \n", time.Now().Format("2006-01-02 15:04:05"), r.RemoteAddr )
-		w.Write(respuesta)
-	})
-)
-
+		w.Write(respuesta)}))
 	// Escuchar en el puerto especificado
 	listener, err := net.Listen("tcp", ":"+port)
 	if err != nil {
