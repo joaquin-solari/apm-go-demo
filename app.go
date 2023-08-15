@@ -27,7 +27,7 @@ import (
 	"net/http"
 	"os"
 	"time"
-	"go.elastic.co/apm"
+	//"go.elastic.co/apm"
 	"go.elastic.co/apm/module/apmhttp"
 )
 
