@@ -34,7 +34,7 @@ import (
 func main() {
 
 	// Inicializar el agente de Elastic APM
-	if err := apm.Initialize(); err != nil {
+	if err := apm.DefaultTracer.Init(); err != nil {
 		log.Fatal(err)
 	}
 	defer apm.DefaultTracer.Close()
@@ -78,11 +78,14 @@ func main() {
 	}
 
 	// Manejador HTTP
-	// Envolver el manejador con el middleware de Elastic APM
-	tracedHandler := apmhttp.Wrap(http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	myHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// Loggear pedidos de conexion
 		log.Printf("%s - Conexion desde %s \n", time.Now().Format("2006-01-02 15:04:05"), r.RemoteAddr )
-		w.Write(respuesta)}))
+		w.Write(respuesta)
+	})
+	// Envolver el manejador con el middleware de Elastic APM
+	tracedHandler := apmhttp.Wrap(myHandler)
+	
 	// Escuchar en el puerto especificado
 	listener, err := net.Listen("tcp", ":"+port)
 	if err != nil {
