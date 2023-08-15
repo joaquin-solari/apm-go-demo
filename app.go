@@ -34,10 +34,10 @@ import (
 func main() {
 
 	// Inicializar el agente de Elastic APM
-	if err := apm.DefaultTracer.Init(); err != nil {
-		log.Fatal(err)
-	}
-	defer apm.DefaultTracer.Close()
+	//if err := apm.DefaultTracer.Init(); err != nil {
+//		log.Fatal(err)
+//	}
+//	defer apm.DefaultTracer.Close()
 
 	log.Printf("App Version 1.1-dev\n")
 	// Obtener puerto
@@ -85,7 +85,7 @@ func main() {
 	})
 	// Envolver el manejador con el middleware de Elastic APM
 	tracedHandler := apmhttp.Wrap(myHandler)
-	
+
 	// Escuchar en el puerto especificado
 	listener, err := net.Listen("tcp", ":"+port)
 	if err != nil {
