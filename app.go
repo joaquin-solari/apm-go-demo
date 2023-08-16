@@ -20,7 +20,6 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"math/rand"
 	"net"
@@ -69,19 +68,13 @@ func main() {
 	// Indicar ubicación del logfile en consola
 	log.Printf("Utilizando logfile en %s\n", logfile)
 
-	// Leer archivo de respuesta
-	respuesta, err := ioutil.ReadFile("./config/respuesta.txt")
-	if err != nil {
-		respuesta = []byte("Mensaje de texto generico")
-	}
-
-	// Manejador HTTP con el uso de Gorilla Mux para rutas
+	// Crear enrutador con Gorilla Mux
 	r := mux.NewRouter()
-	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		// Loggear pedidos de conexión
-		log.Printf("%s - Conexion desde %s \n", time.Now().Format("2006-01-02 15:04:05"), r.RemoteAddr)
-		w.Write(respuesta)
-	})
+
+	// Manejador para la ruta "/"
+	r.PathPrefix("/").Handler(http.FileServer(http.Dir("./static")))
+
+	// Manejador para la ruta "/api"
 	r.HandleFunc("/api", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)

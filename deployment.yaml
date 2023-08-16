@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: demo-apm
-          image: joaquinsolari/demo-apm:v2
+          image: joaquinsolari/demo-apm:v3
           ports:
             - containerPort: 8085
           envFrom:
