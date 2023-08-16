@@ -15,7 +15,6 @@
 # Con estas modificaciones, la aplicación utilizará el archivo de log especificado en la variable LOGFILE si está definida, o bien generará un archivo de log aleatorio en /tmp/ si la variable no está definida. Además, indicará en consola la ubicación del archivo de log utilizado.
 
 */ 
-
 package main
 
 import (
@@ -72,7 +71,7 @@ func main() {
 	r := mux.NewRouter()
 
 	// Manejador para la ruta "/"
-	r.PathPrefix("/").Handler(http.FileServer(http.Dir("./static")))
+	r.PathPrefix("/").Handler(http.FileServer(http.Dir("/app/static")))
 
 	// Manejador para la ruta "/api"
 	r.HandleFunc("/api", func(w http.ResponseWriter, r *http.Request) {
@@ -98,4 +97,6 @@ func main() {
 		log.Fatal(err)
 	}
 }
+
+
 
