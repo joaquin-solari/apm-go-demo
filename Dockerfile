@@ -6,6 +6,7 @@ COPY app.go go.* /src/
 # Instala el agente Elastic APM para Go
 RUN go get -u go.elastic.co/apm
 RUN go get -u go.elastic.co/apm/module/apmhttp
+RUN go get github.com/gorilla/mux
 RUN CGO_ENABLED=0 go build -o /bin/app
 
 ENV PUERTO=8085 

@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-apm-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo-apm
+  template:
+    metadata:
+      labels:
+        app: demo-apm
+    spec:
+      containers:
+        - name: demo-apm
+          image: joaquinsolari/demo-apm:v2
+          ports:
+            - containerPort: 8085
+          envFrom:
+            - secretRef:
+               name: elastic-apm-secret

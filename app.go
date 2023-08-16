@@ -27,19 +27,17 @@ import (
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/gorilla/mux"
 	//"go.elastic.co/apm"
 	"go.elastic.co/apm/module/apmhttp"
 )
 
+var visitorCount int
+
 func main() {
-
-	// Inicializar el agente de Elastic APM
-	//if err := apm.DefaultTracer.Init(); err != nil {
-//		log.Fatal(err)
-//	}
-//	defer apm.DefaultTracer.Close()
-
 	log.Printf("App Version 1.1-dev\n")
+
 	// Obtener puerto
 	port := os.Getenv("PUERTO")
 	if port == "" {
@@ -61,7 +59,7 @@ func main() {
 	}
 	defer logFile.Close()
 
-	// Agregar linea con hostname al archivo de inicio
+	// Agregar línea con hostname al archivo de inicio
 	hostname, err := os.Hostname()
 	if err != nil {
 		log.Fatal(err)
@@ -77,14 +75,22 @@ func main() {
 		respuesta = []byte("Mensaje de texto generico")
 	}
 
-	// Manejador HTTP
-	myHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// Loggear pedidos de conexion
-		log.Printf("%s - Conexion desde %s \n", time.Now().Format("2006-01-02 15:04:05"), r.RemoteAddr )
+	// Manejador HTTP con el uso de Gorilla Mux para rutas
+	r := mux.NewRouter()
+	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		// Loggear pedidos de conexión
+		log.Printf("%s - Conexion desde %s \n", time.Now().Format("2006-01-02 15:04:05"), r.RemoteAddr)
 		w.Write(respuesta)
 	})
+	r.HandleFunc("/api", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		visitorCount++
+		fmt.Fprintf(w, `{"count": %d}`, visitorCount)
+	})
+
 	// Envolver el manejador con el middleware de Elastic APM
-	tracedHandler := apmhttp.Wrap(myHandler)
+	tracedHandler := apmhttp.Wrap(r)
 
 	// Escuchar en el puerto especificado
 	listener, err := net.Listen("tcp", ":"+port)
